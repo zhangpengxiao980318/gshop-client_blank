@@ -75,7 +75,7 @@ const actions = {
   获取推荐列表的异步action
   */
   async getRecommends ({commit}) {
-    console.log('getRecommends()')
+    // console.log('getRecommends()')
     // 发异步ajax请求(调用接口请求函数)
     const result = await reqRecommends()
     // 如果请求成功了, 得到数据提交给mutation
@@ -89,7 +89,7 @@ const actions = {
     获取楼层列表的异步action
     */
   async getFloors ({commit}) {
-    console.log('getFloors()')
+    // console.log('getFloors()')
     // 发异步ajax请求(调用接口请求函数)
     const result = await reqFloors()
     // 如果请求成功了, 得到数据提交给mutation

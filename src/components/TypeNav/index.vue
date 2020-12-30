@@ -79,7 +79,7 @@ export default {
   name: "TypeNav",
 
   data() {
-    console.log('data()')
+    // console.log('data()')
     const path = this.$route.path
     return {
       // isShowFirst: false, // 是否显示一级列表
@@ -89,7 +89,7 @@ export default {
   },
 
   beforeCreate() {
-    console.log('beforeCreate()')
+    // console.log('beforeCreate()')
   },
 
   // created () {
@@ -149,7 +149,7 @@ export default {
     // showSubList: _.throttle( (index) => { // 不可以, 原因在于箭头函数没有自己的this, 且不能通过bind来指定特定this
     // showSubList: _.throttle(function (index) { // 这个事件监听回调函数调用的频率太高
     showSubList: throttle(function (index) { // 这个事件监听回调函数调用的频率太高
-      console.log('throttle', index)
+      // console.log('throttle', index)
       // 只有当还没有离开整个分类的div时才更新下标
       if (this.currentIndex!==-2) {
         this.currentIndex = index;
@@ -165,7 +165,7 @@ export default {
     toSearch(event) {
       const target = event.target;
       // alert(target.tagName)
-      console.dir(target);
+      // console.dir(target);
       // 取出data自定义属性值
       const {
         categoryname,

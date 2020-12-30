@@ -19,4 +19,4 @@ Mock.mock('/mock/banners', {code: 200, data: banners})
 
 
 
-console.log('MockServer')
+// console.log('MockServer')
