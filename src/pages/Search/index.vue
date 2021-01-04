@@ -170,11 +170,6 @@ export default {
       },
     };
   },
-  mounted() {
-    this.$router.afterEach((to, from, next) => {
-      window.scrollTo(0, 0);
-    });
-  },
 
   // 在created中收集参数数据到options中, 并发送搜索的请求
   // created () {

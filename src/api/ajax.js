@@ -9,7 +9,7 @@ axios二次封装
 import axios from 'axios'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-
+import store from '@/store'
 
 /* 1. 配置通用的基础路径和超时 */
 // service是一个能发任意ajax请求的函数, 当然可以作为对象使用
@@ -26,7 +26,10 @@ service.interceptors.request.use((config) => {
   /* 2. 显示请求进度条 */
   // 显示请求进度条: 在请求拦截器中
   NProgress.start()
-  
+  let userTempId = store.state.user.userTempId
+  if(userTempId){
+    config.headers.userTempId = userTempId
+  }
 
 
   // 必须返回config
