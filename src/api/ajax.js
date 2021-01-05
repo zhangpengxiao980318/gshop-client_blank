@@ -26,11 +26,17 @@ service.interceptors.request.use((config) => {
   /* 2. 显示请求进度条 */
   // 显示请求进度条: 在请求拦截器中
   NProgress.start()
+  //携带临时标识
   let userTempId = store.state.user.userTempId
   if(userTempId){
     config.headers.userTempId = userTempId
   }
 
+  //携带用户的token
+  let token = store.state.user.token
+  if(token){
+    config.headers.token = token
+  }
 
   // 必须返回config
   return config // 后面就会根据返回的config, 使用xhr对象发ajax请求
