@@ -7,6 +7,7 @@
         class="address clearFix"
         v-for="userAddress in userAddressList"
         :key="userAddress.id"
+        @click="defaultAddress(userAddress, userAddressList)"
       >
         <span
           class="username"
@@ -50,12 +51,12 @@
           </li>
           <li>
             <p>
-              {{goods.skuName}}
+              {{ goods.skuName }}
             </p>
             <h4>7天无理由退货</h4>
           </li>
           <li>
-            <h3>￥{{goods.orderPrice}}</h3>
+            <h3>￥{{ goods.orderPrice }}</h3>
           </li>
           <li>X{{ goods.skuNum }}</li>
           <li>有货</li>
@@ -79,8 +80,11 @@
     <div class="money clearFix">
       <ul>
         <li>
-          <b><i>{{tradeInfo.totalNum}}</i>件商品，总商品金额</b>
-          <span>¥5399.00</span>
+          <b
+            ><i>{{ tradeInfo.totalNum }}</i
+            >件商品，总商品金额</b
+          >
+          <span>¥{{ tradeInfo.totalAmount }}</span>
         </li>
         <li>
           <b>返现：</b>
@@ -93,16 +97,18 @@
       </ul>
     </div>
     <div class="trade">
-      <div class="price">应付金额:　<span>¥{{tradeInfo.totalAmount}}</span></div>
+      <div class="price">
+        应付金额:　<span>¥{{ tradeInfo.totalAmount }}</span>
+      </div>
       <div class="receiveInfo">
         寄送至:
-        <span>北京市昌平区宏福科技园综合楼6层</span>
-        收货人：<span>张三</span>
-        <span>15010658793</span>
+        <span>{{ mailingAddress.userAddress }}</span>
+        收货人：<span>{{ mailingAddress.consignee }}</span>
+        <span>{{ mailingAddress.phoneNum }}</span>
       </div>
     </div>
     <div class="sub clearFix">
-      <router-link class="subBtn" to="/pay">提交订单</router-link>
+      <a href="javascript:;" class="subBtn" @click="submitOrder">提交订单</a>
     </div>
   </div>
 </template>
@@ -120,15 +126,47 @@ export default {
     this.getTradeInfo();
   },
   methods: {
+    //触发vuex中的actions
     getTradeInfo() {
       this.$store.dispatch("getTradeInfo");
     },
+    //排它,切换默认地址
+    defaultAddress(userAddress,userAddressList){
+      userAddressList.forEach(item => {
+        item.isDefault = '0'
+      });
+      userAddress.isDefault = '1'
+    },
+    //提交订单
+    async submitOrder(){
+      let tradeNo = this.tradeInfo.tradeNo
+      let tradeData = {
+        consignee:this.mailingAddress.consignee,
+        consigneeTel:this.mailingAddress.phoneNum,
+        deliveryAddress:this.mailingAddress.userAddress,
+        paymentWay:'ONLINE',
+        orderComment:this.message,
+        orderDetailList:this.detailArrayList
+      }
+      try {
+        const result = await this.$API.reqSubmitOrder(tradeNo,tradeData)
+        if(result.code === 200){
+        alert('提交成功,准备跳转支付页面')
+        this.$router.push('/pay?orderId='+result.data)
+      }
+      } catch (error) {
+        alert('提交失败')
+      }
+    }
   },
   computed: {
     ...mapGetters(["detailArrayList", "userAddressList"]),
     ...mapState({
       tradeInfo: (state) => state.trade.tradeInfo || {},
     }),
+    mailingAddress(){
+      return this.userAddressList.find(item =>item.isDefault === '1') || {}
+    }
   },
 };
 </script>

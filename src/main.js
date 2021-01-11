@@ -5,8 +5,11 @@ import store from './store'
 import TypeNav from "./components/TypeNav"
 import Pagination from "./components/Pagination"
 
+
 import './plugins/swiper' // 加载swiper的配置
+import './plugins/element' // 加载element-ui的配置
 import './mock/mockServer'
+import * as API from '@/api'
 
 // 浏览器控制台不显示非生产环境打包的提示
 Vue.config.productionTip = false
@@ -22,6 +25,7 @@ new Vue({
   beforeCreate () {
     // 1) 创建或指定事件总线对象, 保存到Vue的原型上
     Vue.prototype.$bus = this
+    Vue.prototype.$API = API
   },
 
   render: h => h(App),

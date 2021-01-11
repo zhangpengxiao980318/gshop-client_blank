@@ -118,3 +118,28 @@ export const reqTrade = () =>{
     method:'get'
   })
 }
+
+//提交订单
+export const reqSubmitOrder = (tradeNo,tradeInfo) =>{
+  return ajax({
+    url:`/order/auth/submitOrder?tradeNo=${tradeNo}`,
+    method:'post',
+    data:tradeInfo
+  })
+}
+
+//获取订单支付信息
+export const reqPayInfo = (orderId) =>{
+  return ajax({
+    url:`/payment/weixin/createNative/${orderId}`,
+    method:'get'
+  })
+}
+
+//查询支付订单状态
+export const reqPayStatus = (orderId) =>{
+  return ajax({
+    url:`/payment/weixin/queryPayStatus/${orderId}`,
+    method:'get'
+  })
+}
